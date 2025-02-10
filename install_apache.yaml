@@ -4,33 +4,20 @@
   become: true
   tasks:
 
-  - name: update repository index
+  - name: install apache2 dan php package for debian family
     apt:
-      update_cache: yes
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: install apache2 package
-    apt:
-      name: apache2
-    when: ansible_distribution in ["Debian", "Ubuntu"]
-
-  - name: install apache php mod
-    apt:
-      name: libapache2-mod-php
+      name:
+        - apache2
+        - libapache2-mod-php
       state: latest
+      update_cache: yes
     when: ansible_distribution in ["Debian", "Ubuntu"]
 
-  - name: update repository index
+  - name: install apache2 and php package for centos
     dnf:
+      name:
+        - httpd
+        - php
+      state: latest
       update_cache: yes
-    when: ansible_distribution == "CentOS"
-
-  - name: install apache2 package
-    dnf:
-      name: httpd
-    when: ansible_distribution == "CentOS"
-
-  - name: install apache php mod
-    dnf:
-      name: php
     when: ansible_distribution == "CentOS"
